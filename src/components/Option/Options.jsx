@@ -25,7 +25,11 @@ export function Options({ setNewFeedback, checkFeedB, setFeedbReset }) {
         Bad
       </button>
       {checkFeedB && (
-        <button type="button" className={css.button} onClick={setFeedbReset}>
+        <button 
+        type="button" 
+        className={css.button} 
+        onClick={setFeedbReset}
+        >
           Reset
         </button>
       )}
