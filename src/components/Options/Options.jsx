@@ -1,21 +1,22 @@
-import css from "./Options.module.css";
+import css from './Options.module.css';
 
-export const Options = ({ handleClick, options }) => {
+export const Options = ({ onLeaveFeedback, reset, total }) => {
   return (
-    <ul className={css.btList}>
-      {options.map((option) => (
-        <li
-          key={option}
-          className={css.bt}
-        >
-          <button
-            type="button"
-            onClick={() => handleClick(option)}
-          >
-            {option}
-          </button>
-        </li>
-      ))}
-    </ul>
+    <div className={css.wrap}>
+      <button className={css.btn} onClick={() => onLeaveFeedback('good')}>
+        Good
+      </button>
+      <button className={css.btn} onClick={() => onLeaveFeedback('neutral')}>
+        Neutral
+      </button>
+      <button className={css.btn} onClick={() => onLeaveFeedback('bad')}>
+        Bad
+      </button>
+      {total > 0 && (
+        <button className={css.btn} onClick={reset}>
+          Reset
+        </button>
+      )}
+    </div>
   );
 };
