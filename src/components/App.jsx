@@ -5,57 +5,66 @@ import { Feedback } from './Feedback/Feedback';
 import { Notification } from './Notification/Notification';
 
 export const App = () => {
-  const [feedbacks, setFeedbacks] = useState(() => {
-    const localeStorageFeedBacks = window.localStorage.getItem('feedbacks');
-    return localeStorageFeedBacks !== null
-      ? JSON.parse(localeStorageFeedBacks)
-      : {
-          good: 0,
-          neutral: 0,
-          bad: 0,
-        };
-  });
+  const [feedback, setFeedback] = useState(() => {
+    const savedFeedback = JSON.parse(localStorage.getItem('saved-feedback'));
 
-  useEffect(() => {
-    window.localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
-  }, [feedbacks]);
+    if (savedFeedback !== null) {
+      let initialValue = savedFeedback.feedback;
+      console.log(initialValue);
+      return {
+        good: initialValue.good,
+        neutral: initialValue.neutral,
+        bad: initialValue.bad,
+      };
+    }
 
-  function setNewFeedback(type) {
-    setFeedbacks(feedbacks => ({
-      ...feedbacks,
-      [type]: feedbacks[type] + 1,
-    }));
-  }
-
-
-  function setFeedbReset() {
-    setFeedbacks({
+    return {
       good: 0,
       neutral: 0,
       bad: 0,
-    });
-  }
+    };
+  });
 
-  const checkFeedB = Boolean(
-    feedbacks.good || feedbacks.neutral || feedbacks.bad
-  );
+  const onLeaveFeedback = option => {
+    setFeedback({
+      ...feedback,
+      [option]: feedback[option] + 1,
+    });
+  };
+
+  useEffect(() => {
+    window.localStorage.setItem('saved-feedback', JSON.stringify({ feedback }));
+  }, [feedback]);
+
+  const { good, neutral, bad } = feedback;
+  const totalFeedback = good + neutral + bad;
+  const positiveFeedback = Math.round(((good + neutral) / totalFeedback) * 100);
+
   return (
-    <div>
+    <>
       <Description />
       <Options
-        setNewFeedback={setNewFeedback}
-        checkFeedB={checkFeedB}
-        setFeedbReset={setFeedbReset}
+        onLeaveFeedback={onLeaveFeedback}
+        reset={() =>
+          setFeedback({
+            good: 0,
+            neutral: 0,
+            bad: 0,
+          })
+        }
+        total={totalFeedback}
       />
-      {checkFeedB ? (
+      {totalFeedback > 0 ? (
         <Feedback
-          good={feedbacks.good}
-          neutral={feedbacks.neutral}
-          bad={feedbacks.bad}
+          good={feedback.good}
+          neutral={feedback.neutral}
+          bad={feedback.bad}
+          total={totalFeedback}
+          positive={positiveFeedback}
         />
       ) : (
         <Notification />
       )}
-    </div>
+    </>
   );
 };
