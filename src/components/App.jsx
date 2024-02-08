@@ -1,6 +1,6 @@
 import css from "./App.css";
 import { useEffect, useState } from "react";
-import { Discription } from "./Description/Description";
+import { Description } from "./Description/Description";
 import { Feedback } from "./Feedback/Feedback";
 import { Options } from "./Options/Options";
 import { Notification } from "./Notification/Notification";
@@ -36,7 +36,7 @@ export const App = () => {
   }, [state]);
   return (
     <>
-      <Discription />
+      <Description />
 
       <div className={css.wrap}>
         <Options
