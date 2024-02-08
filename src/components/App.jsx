@@ -5,62 +5,61 @@ import { Feedback } from './Feedback/Feedback';
 import { Notification } from './Notification/Notification';
 
 export const App = () => {
-  const [feedback, setFeedback] = useState(() => {
-    const savedFeedback = JSON.parse(localStorage.getItem('saved-feedback'));
+  const initState = {
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  };
 
-    if (savedFeedback !== null) {
-      let initialValue = savedFeedback.feedback;
-      console.log(initialValue);
-      return {
-        good: initialValue.good,
-        neutral: initialValue.neutral,
-        bad: initialValue.bad,
-      };
-    }
+  const [state, setState] = useState(
+    () => JSON.parse(window.localStorage.getItem("feedback")) ?? initState
+  );
 
-    return {
-      good: 0,
-      neutral: 0,
-      bad: 0,
-    };
-  });
+  const { good, neutral, bad } = state;
+  const total = good + neutral + bad;
+  const positive = Math.round(((good + neutral) / total) * 100);
 
-  const onLeaveFeedback = option => {
-    setFeedback({
-      ...feedback,
-      [option]: feedback[option] + 1,
-    });
+  const handleClick = (name) => {
+    setState((prev) => ({
+      ...prev,
+      [name]: prev[name] + 1,
+    }));
+  };
+
+  const handleReset = () => {
+    setState(initState);
   };
 
   useEffect(() => {
-    window.localStorage.setItem('saved-feedback', JSON.stringify({ feedback }));
-  }, [feedback]);
-
-  const { good, neutral, bad } = feedback;
-  const totalFeedback = good + neutral + bad;
-  const positiveFeedback = Math.round(((good + neutral) / totalFeedback) * 100);
-
+    window.localStorage.setItem("feedback", JSON.stringify(state));
+  }, [state]);
   return (
     <>
       <Description />
-      <Options
-        onLeaveFeedback={onLeaveFeedback}
-        reset={() =>
-          setFeedback({
-            good: 0,
-            neutral: 0,
-            bad: 0,
-          })
-        }
-        total={totalFeedback}
-      />
-      {totalFeedback > 0 ? (
+
+      <div className={css.wrap}>
+        <Options
+          handleClick={handleClick}
+          options={Object.keys(initState)}
+        />
+
+        {total > 0 && (
+          <button
+            type="button"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+        )}
+      </div>
+
+      {total > 0 ? (
         <Feedback
-          good={feedback.good}
-          neutral={feedback.neutral}
-          bad={feedback.bad}
-          total={totalFeedback}
-          positive={positiveFeedback}
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          total={total}
+          positive={positive}
         />
       ) : (
         <Notification />
