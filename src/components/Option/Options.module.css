@@ -1,0 +1,16 @@
+.options {
+    margin-bottom: 20px;
+  }
+  
+  .button {
+    border-radius: 3px;
+    border: 1px solid black;
+    margin-right: 15px;
+  }
+  .button:last-child {
+    margin-right: 0;
+  }
+  
+  p {
+  padding-bottom: 5px;
+  }
