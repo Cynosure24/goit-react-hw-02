@@ -1,5 +1,6 @@
 export function Feedback({ good, neutral, bad }) {
-    const total = good + neutral + bad;
+    const totalFeedback = good + neutral + bad;
+
     return (
       <div>
         <p>
@@ -12,10 +13,10 @@ export function Feedback({ good, neutral, bad }) {
           Bad: <span>{bad}</span>
         </p>
         <p>
-          Total: <span>{total}</span>
+          Total: <span>{totalFeedback}</span>
         </p>
         <p>
-          Positive: <span>{Math.floor(((good + neutral) / total) * 100)}</span>%
+          Positive: <span>{Math.round(((good + neutral) / totalFeedback) * 100)}</span>%
         </p>
       </div>
     );
