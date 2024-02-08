@@ -1,6 +1,6 @@
 import css from "./App.css";
 import { useEffect, useState } from "react";
-import { Discription } from "./Discription/Discription";
+import { Discription } from "./Description/Description";
 import { Feedback } from "./Feedback/Feedback";
 import { Options } from "./Options/Options";
 import { Notification } from "./Notification/Notification";
