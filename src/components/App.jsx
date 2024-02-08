@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Description } from './Description/Description';
-import { Options } from './Options/Options';
-import { Feedback } from './Feedback/Feedback';
-import { Notification } from './Notification/Notification';
+import css from "./App.module.css";
+import { useEffect, useState } from "react";
+import { Discription } from "./Discription/Discription";
+import { Feedback } from "./Feedback/Feedback";
+import { Options } from "./Options/Options";
+import { Notification } from "./Notification/Notification";
 
 export const App = () => {
   const initState = {
@@ -35,7 +36,7 @@ export const App = () => {
   }, [state]);
   return (
     <>
-      <Description />
+      <Discription />
 
       <div className={css.wrap}>
         <Options

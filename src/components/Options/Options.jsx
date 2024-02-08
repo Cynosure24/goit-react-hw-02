@@ -1,38 +1,21 @@
-import css from './Options.module.css';
+import css from "./Options.module.css";
 
-export function Options({ setNewFeedback, checkFeedB, setFeedbReset }) {
+export const Options = ({ handleClick, options }) => {
   return (
-    <div className={css.options}>
-      <button
-        type="button"
-        className={css.button}
-        onClick={() => setNewFeedback('good')}
-      >
-        Good
-      </button>
-      <button
-        type="button"
-        className={css.button}
-        onClick={() => setNewFeedback('neutral')}
-      >
-        Neutral
-      </button>
-      <button
-        type="button"
-        className={css.button}
-        onClick={() => setNewFeedback('bad')}
-      >
-        Bad
-      </button>
-      {checkFeedB && (
-        <button 
-        type="button" 
-        className={css.button} 
-        onClick={setFeedbReset}
+    <ul className={css.btList}>
+      {options.map((option) => (
+        <li
+          key={option}
+          className={css.bt}
         >
-          Reset
-        </button>
-      )}
-    </div>
+          <button
+            type="button"
+            onClick={() => handleClick(option)}
+          >
+            {option}
+          </button>
+        </li>
+      ))}
+    </ul>
   );
-}
+};
