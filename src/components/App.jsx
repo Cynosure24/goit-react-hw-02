@@ -1,4 +1,4 @@
-import css from "./App.module.css";
+import css from "./App.css";
 import { useEffect, useState } from "react";
 import { Discription } from "./Discription/Discription";
 import { Feedback } from "./Feedback/Feedback";
